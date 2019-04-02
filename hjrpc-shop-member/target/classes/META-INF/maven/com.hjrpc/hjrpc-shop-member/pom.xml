@@ -15,10 +15,10 @@
 			<artifactId>hjrpc-shop-member-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.hjrpc</groupId>
 			<artifactId>hjrpc-shop-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 </project>
