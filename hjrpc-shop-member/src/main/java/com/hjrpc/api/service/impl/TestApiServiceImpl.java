@@ -11,6 +11,9 @@ import com.hjrpc.base.BaseApiService;
 import com.hjrpc.base.BaseRedisService;
 import com.hjrpc.base.ResponseBase;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 public class TestApiServiceImpl extends BaseApiService implements TestApiService {
 	
