@@ -20,7 +20,7 @@ spring:
   #数据库连接信息
   datasource:
         name: test
-        url: jdbc:mysql://127.0.0.1:3306/hjrpc-member?characterEncoding=utf8&useSSL=true
+        url: jdbc:mysql://127.0.0.1:3306/hjrpc-member?characterEncoding=utf8&useSSL=false
         username: root
         password: root
         # 使用druid数据源
@@ -45,6 +45,14 @@ spring:
     in-memory: true
     pool:
       enabled: false
+# 消费者的组名
+apache:
+   rocketmq:
+      consumer:
+         PushConsumer: PushConsumer
+      producer:
+         producerGroup: Producer
+      namesrvAddr: 127.0.0.1:9876
 messages :
    queue : messages_queue
          

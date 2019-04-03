@@ -23,6 +23,14 @@ spring:
     starttls:
       enable: true
       required: true
+# 消费者的组名
+apache:
+   rocketmq:
+      consumer:
+         PushConsumer: PushConsumer
+      producer:
+         producerGroup: Producer
+      namesrvAddr: 127.0.0.1:9876
 ########################################
 msg: 
   subject: hjrpc提示您，会员注册成功邮件。

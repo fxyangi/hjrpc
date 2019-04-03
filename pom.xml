@@ -49,6 +49,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-activemq</artifactId>
 		</dependency>
+		<!-- springboot整合rocketmq -->
+		<dependency>
+            <groupId>com.alibaba.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>3.2.6</version>
+		</dependency>
 		<!-- 集成发送邮件 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

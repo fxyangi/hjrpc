@@ -1,11 +1,22 @@
 package com.hjrpc.api.service.impl;
 
+import java.util.List;
+
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.rocketmq.client.exception.MQBrokerException;
+import com.alibaba.rocketmq.client.exception.MQClientException;
+import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
+import com.alibaba.rocketmq.client.producer.MessageQueueSelector;
+import com.alibaba.rocketmq.client.producer.TransactionMQProducer;
+import com.alibaba.rocketmq.common.message.Message;
+import com.alibaba.rocketmq.common.message.MessageQueue;
+import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.hjrpc.api.service.MemberService;
 import com.hjrpc.base.BaseApiService;
 import com.hjrpc.base.ResponseBase;
@@ -27,6 +38,13 @@ public class MemberServiceImpl extends BaseApiService implements MemberService {
 	@Autowired
 	private RegisterMailboxProducer registerMailboxProducer;
 	
+    @Autowired
+    private DefaultMQProducer defaultMQProducer;
+    
+	  @Autowired
+	  private TransactionMQProducer producer;
+	
+	
 	@Value("${messages.queue}")
 	private String MESSAGESQUEUE;
 
@@ -40,7 +58,7 @@ public class MemberServiceImpl extends BaseApiService implements MemberService {
 	}
 
 	@Override
-	public ResponseBase registUser(UserEntity userEntity) {
+	public ResponseBase registUser(@RequestBody UserEntity userEntity) {
 		String password = userEntity.getPassword();
 		String newPassword = MD5Util.MD5(password);
 		userEntity.setPassword(newPassword);
@@ -71,6 +89,21 @@ public class MemberServiceImpl extends BaseApiService implements MemberService {
 	private void sendMsg(String json) {
 		ActiveMQQueue activeMQQueue = new ActiveMQQueue(MESSAGESQUEUE);
 		registerMailboxProducer.sendMsg(activeMQQueue, json);
+		
 
 	}
+	
+	private void sendRocketMsg(String json) throws Exception{
+		Message message = new Message("TopicTest", "Tag1", "12345", json.getBytes());
+		producer.send(message,new MessageQueueSelector() {
+			
+			@Override
+			public MessageQueue select(List<MessageQueue> mqs, Message msg, Object arg) {
+				 Integer id = (Integer) arg;
+			        int index = id % mqs.size();
+			        return mqs.get(index);
+			}
+		},1);
+	}
+
 }
