@@ -6,4 +6,5 @@ public class Constants {
 	public final static String ERROR_CODE = "500";
 	public final static String SUCCESS_CODE_MSG = "success";
 	public final static String ERROR_CODE_MSG = "failure";
+	public static final Object SMS_MAIL = "mail";
 }
